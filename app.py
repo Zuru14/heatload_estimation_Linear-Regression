@@ -27,6 +27,8 @@ def home():
 
         try:
             values = [float(input_values[f"X{index}"]) for index in range(1, 9)]
+            if not np.all(np.isfinite(values)):
+                raise ValueError
             input_data = np.array(values).reshape(1, -1)
             scaled_data = scaler.transform(input_data)
             prediction = model.predict(scaled_data)[0]
