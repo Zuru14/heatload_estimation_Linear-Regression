@@ -1,8 +1,8 @@
 from pathlib import Path
+import pickle
 from textwrap import dedent
 
 import streamlit as st
-import joblib
 import numpy as np
 
 
@@ -24,8 +24,11 @@ st.set_page_config(
 
 BASE_DIR = Path(__file__).resolve().parent
 
-model = joblib.load(BASE_DIR / "linear_regression_model.pkl")
-scaler = joblib.load(BASE_DIR / "scaler.pkl")
+with (BASE_DIR / "linear_regression_model.pkl").open("rb") as model_file:
+    model = pickle.load(model_file)
+
+with (BASE_DIR / "scaler.pkl").open("rb") as scaler_file:
+    scaler = pickle.load(scaler_file)
 
 
 # ============================================================
