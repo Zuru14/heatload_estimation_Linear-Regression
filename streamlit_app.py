@@ -1,5 +1,3 @@
-from pathlib import Path
-import pickle
 from textwrap import dedent
 
 import streamlit as st
@@ -19,16 +17,28 @@ st.set_page_config(
 
 
 # ============================================================
-# LOAD MODEL
+# MODEL PARAMETERS
 # ============================================================
 
-BASE_DIR = Path(__file__).resolve().parent
-
-with (BASE_DIR / "linear_regression_model.pkl").open("rb") as model_file:
-    model = pickle.load(model_file)
-
-with (BASE_DIR / "scaler.pkl").open("rb") as scaler_file:
-    scaler = pickle.load(scaler_file)
+MODEL_COEFFICIENTS = np.array(
+    [-6.5176011750080125, -3.604586420062226, 0.7953393154385673,
+     -3.9173667716537044, 7.215463953024328, -0.03593382159406625,
+     2.700051383982388, 0.3273452190561896],
+    dtype=float,
+)
+MODEL_INTERCEPT = 22.155032573289894
+SCALER_MEAN = np.array(
+    [0.7616775244299675, 673.8298045602606, 318.81921824104234,
+     177.50529315960912, 5.221498371335505, 3.511400651465798,
+     0.23542345276872967, 2.7996742671009773],
+    dtype=float,
+)
+SCALER_SCALE = np.array(
+    [0.1053377702756247, 88.08938738758552, 43.3006483244442,
+     44.92361043037086, 1.7497678866533901, 1.1077313402691824,
+     0.13404287260994016, 1.5506434173931134],
+    dtype=float,
+)
 
 
 # ============================================================
@@ -459,9 +469,8 @@ if predict:
         if not np.all(np.isfinite(input_data)):
             raise ValueError
 
-        scaled_data = scaler.transform(input_data)
-
-        prediction = model.predict(scaled_data)[0]
+        scaled_data = (input_data - SCALER_MEAN) / SCALER_SCALE
+        prediction = float(MODEL_INTERCEPT + scaled_data @ MODEL_COEFFICIENTS)
 
         st.markdown("#### Model output")
         st.metric("Y1 Heating Load", f"{prediction:.2f}")
