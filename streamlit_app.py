@@ -470,7 +470,9 @@ if predict:
             raise ValueError
 
         scaled_data = (input_data - SCALER_MEAN) / SCALER_SCALE
-        prediction = float(MODEL_INTERCEPT + scaled_data @ MODEL_COEFFICIENTS)
+        prediction = float(
+            (MODEL_INTERCEPT + scaled_data @ MODEL_COEFFICIENTS)[0]
+        )
 
         st.markdown("#### Model output")
         st.metric("Y1 Heating Load", f"{prediction:.2f}")
