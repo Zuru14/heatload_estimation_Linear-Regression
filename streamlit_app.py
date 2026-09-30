@@ -266,6 +266,26 @@ st.markdown(
         min-height: 125px;
     }
 
+    div[data-testid="stMetric"] {
+        background: #095b55;
+        border: 1px solid #095b55;
+        border-radius: 0;
+        padding: 18px;
+    }
+
+    div[data-testid="stMetricLabel"] p {
+        color: #d7ec72 !important;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    div[data-testid="stMetricValue"] {
+        color: #e2f54b !important;
+    }
+
     .result-label {
         display: block;
         font-family: Arial, sans-serif;
